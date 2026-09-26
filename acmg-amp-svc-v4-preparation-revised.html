@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How clinical laboratories, CROs, pharma and regulated life-sciences teams can prepare variant interpretation workflows for ACMG/AMP SVC v4.0.">
+  <meta name="keywords" content="variant interpretation services, clinical genomics analysis, bioinformatics consulting, healthcare data science consulting">
+  <title>ACMG/AMP SVC v4.0 Is Coming | Umbizo</title>
+  <style>
+    :root {
+      --blue: #0000ee;
+      --electric: #002fff;
+      --ink: #071a43;
+      --muted: #53657e;
+      --ice: #eef4ff;
+      --mist: #f2f2f2;
+      --line: #c9d8ef;
+      --white: #ffffff;
+      --dark: #061239;
+      --radius: 18px;
+      --shadow: 0 20px 55px rgba(0, 34, 112, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--mist);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 17px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--electric); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { color: var(--blue); }
+    img { display: block; max-width: 100%; }
+    .shell { width: min(1180px, calc(100% - 44px)); margin: 0 auto; }
+
+    .topbar {
+      background: var(--dark);
+      color: #fff;
+      border-bottom: 1px solid rgba(255,255,255,.15);
+    }
+    .topbar-inner {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -.02em;
+    }
+    .brand-mark {
+      width: 31px;
+      height: 31px;
+      border: 2px solid #fff;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .06em;
+    }
+    .brand-name { font-size: 16px; font-weight: 700; }
+    .brand-name span { color: #9fbaff; font-weight: 400; }
+    .topbar-site { color: #bdcced; font-size: 14px; text-decoration: none; }
+
+    .hero {
+      position: relative;
+      min-height: 590px;
+      display: flex;
+      align-items: end;
+      overflow: hidden;
+      color: #fff;
+      background: var(--dark);
+    }
+    .hero-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: .75;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(4,16,52,.95) 0%, rgba(4,16,52,.72) 46%, rgba(4,16,52,.22) 100%), linear-gradient(0deg, rgba(3,12,41,.88), transparent 68%);
+    }
+    .hero-inner { position: relative; z-index: 1; width: min(1180px, calc(100% - 44px)); margin: 0 auto; padding: 100px 0 78px; }
+    .eyebrow {
+      margin: 0 0 24px;
+      color: #9db8ff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    h1 {
+      max-width: 880px;
+      margin: 0;
+      font-size: clamp(38px, 6vw, 76px);
+      line-height: 1.03;
+      letter-spacing: -.055em;
+      font-weight: 700;
+    }
+    .standfirst {
+      max-width: 720px;
+      margin: 28px 0 0;
+      color: #e3ebff;
+      font-size: clamp(18px, 2.1vw, 23px);
+      line-height: 1.5;
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 24px;
+      margin-top: 34px;
+      color: #b8c8eb;
+      font-size: 13px;
+    }
+    .meta strong { color: #fff; }
+
+    .page-grid {
+      display: grid;
+      grid-template-columns: 230px minmax(0, 760px);
+      gap: 70px;
+      justify-content: center;
+      padding: 70px 0 100px;
+    }
+    .toc {
+      position: sticky;
+      top: 24px;
+      align-self: start;
+      border-top: 3px solid var(--blue);
+      padding-top: 17px;
+    }
+    .toc-title {
+      margin: 0 0 14px;
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+    .toc a {
+      display: block;
+      padding: 7px 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+      text-decoration: none;
+    }
+    .toc a:hover { color: var(--electric); }
+    article { min-width: 0; }
+    article h2 {
+      position: relative;
+      margin: 66px 0 22px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+      color: var(--ink);
+      font-size: clamp(27px, 3vw, 38px);
+      line-height: 1.15;
+      letter-spacing: -.035em;
+    }
+    article h2:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+    article h3 { margin: 34px 0 10px; color: var(--electric); font-size: 21px; line-height: 1.25; letter-spacing: -.02em; }
+    article p { margin: 0 0 20px; }
+    article ul, article ol { margin: 0 0 24px; padding-left: 25px; }
+    article li { padding-left: 5px; margin: 8px 0; }
+    article li::marker { color: var(--blue); font-weight: 700; }
+    .lead { color: #243c63; font-size: 21px; line-height: 1.6; }
+    .rule { width: 64px; height: 5px; margin: 0 0 24px; background: var(--blue); }
+
+    .image-block { margin: 36px 0 42px; }
+    .image-block img { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); }
+    .image-block figcaption { margin-top: 10px; color: var(--muted); font-size: 12px; line-height: 1.4; }
+    .inline-visual { margin: 38px 0; }
+    .inline-visual img { width: 100%; max-height: 330px; object-fit: cover; border-radius: 14px; }
+
+    .callout {
+      margin: 30px 0;
+      padding: 27px 30px;
+      border: 1px solid #b8caff;
+      border-left: 6px solid var(--blue);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      background: var(--ice);
+    }
+    .callout-label {
+      margin: 0 0 13px;
+      color: var(--electric);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .callout p:last-child, .callout ul:last-child { margin-bottom: 0; }
+    .objectives { background: #fff; border-left-color: var(--electric); box-shadow: 0 12px 30px rgba(0,47,255,.07); }
+    .objectives ol { margin-bottom: 0; }
+    .objectives li { margin: 12px 0; }
+    .objectives li strong { color: var(--ink); }
+
+    .change-list { display: grid; gap: 16px; margin: 26px 0 28px; }
+    .change-card {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 18px;
+      padding: 23px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+    }
+    .change-number {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .change-card h3 { margin: 1px 0 7px; color: var(--ink); }
+    .change-card p { margin-bottom: 0; color: #385170; font-size: 16px; }
+
+    .table-wrap { overflow-x: auto; margin: 30px 0 12px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+    .table-wrap.wide { margin-top: 34px; }
+    table { width: 100%; border-collapse: collapse; min-width: 560px; font-size: 15px; }
+    table.legacy-map { min-width: 860px; font-size: 14px; }
+    table.legacy-map th:nth-child(1) { width: 22%; }
+    table.legacy-map th:nth-child(2) { width: 29%; }
+    table.legacy-map th:nth-child(3) { width: 49%; }
+    caption { padding: 16px 18px 0; color: var(--muted); font-size: 13px; text-align: left; caption-side: top; }
+    th, td { padding: 16px 18px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: var(--dark); color: #fff; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+    td:first-child { color: var(--electric); font-weight: 700; }
+    tbody tr:nth-child(even) td { background: #f7faff; }
+    .table-note { color: var(--muted); font-size: 13px; }
+    .classification-bands { display: grid; gap: 8px; margin: 24px 0 30px; padding: 0; list-style: none; }
+    .classification-bands li { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; margin: 0; padding: 13px 16px; border: 1px solid #b8caff; border-left: 5px solid var(--blue); background: #fff; }
+    .classification-bands li strong { color: var(--ink); }
+    .classification-bands li span { color: var(--electric); font-weight: 700; text-align: right; }
+    .status { color: var(--ink); font-weight: 700; }
+    .status em { display: inline-block; margin-left: 7px; padding: 3px 7px; border-radius: 99px; color: var(--blue); background: #e7eeff; font-size: 10px; font-style: normal; letter-spacing: .08em; text-transform: uppercase; }
+    .publication-note { margin-top: 24px; padding: 18px 20px; border: 1px dashed #9db8ff; color: #27446b; background: #f7faff; }
+
+    .layer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 17px; margin-top: 28px; }
+    .layer { padding: 24px; border-top: 4px solid var(--electric); background: #fff; box-shadow: 0 10px 22px rgba(0,36,120,.05); }
+    .layer h3 { margin-top: 0; }
+    .layer p { margin-bottom: 0; color: #385170; font-size: 15px; }
+
+    .timeline { margin: 30px 0; border-left: 2px solid #9db8ff; }
+    .phase { position: relative; padding: 0 0 30px 28px; }
+    .phase:last-child { padding-bottom: 0; }
+    .phase::before { content: ""; position: absolute; top: 5px; left: -8px; width: 14px; height: 14px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 5px var(--mist); }
+    .phase-time { margin-bottom: 3px; color: var(--electric); font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+    .phase h3 { margin: 0 0 7px; color: var(--ink); }
+    .phase p { margin: 0; color: #385170; }
+
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 30px 0; }
+    .metric { padding: 24px 20px; border: 1px solid #b8caff; border-radius: 14px; background: #fff; }
+    .metric strong { display: block; color: var(--blue); font-size: 34px; line-height: 1; letter-spacing: -.05em; }
+    .metric span { display: block; margin-top: 9px; color: var(--muted); font-size: 13px; line-height: 1.35; }
+    .testimonial { position: relative; padding: 34px 35px 30px; color: #fff; border-radius: var(--radius); background: linear-gradient(135deg, var(--dark), #063cad); }
+    .testimonial::before { content: "“"; position: absolute; top: 0; left: 24px; color: #7295ff; font-family: Georgia, serif; font-size: 92px; line-height: 1; }
+    .testimonial blockquote { position: relative; margin: 28px 0 18px; font-size: 20px; line-height: 1.55; }
+    .testimonial cite { color: #bcd0ff; font-size: 13px; font-style: normal; }
+
+    .cta {
+      margin-top: 75px;
+      padding: 48px 45px;
+      border-radius: 22px;
+      color: #fff;
+      background: var(--blue);
+      box-shadow: var(--shadow);
+    }
+    .cta h2 { margin: 0 0 14px; padding: 0; border: 0; color: #fff; }
+    .cta p { max-width: 620px; color: #dfe7ff; }
+    .cta-button { display: inline-block; margin-top: 10px; padding: 13px 19px; border-radius: 4px; color: var(--dark); background: #fff; font-size: 14px; font-weight: 700; text-decoration: none; }
+    .cta-button:hover { color: var(--blue); background: #edf2ff; }
+
+    footer { margin-top: 0; padding: 28px 0 36px; color: #6b7b93; font-size: 13px; }
+    footer .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; border-top: 1px solid var(--line); padding-top: 21px; }
+
+    @media (max-width: 900px) {
+      .page-grid { grid-template-columns: 1fr; gap: 38px; padding-top: 45px; }
+      .toc { position: static; display: flex; flex-wrap: wrap; gap: 0 18px; border-top: 0; border-bottom: 1px solid var(--line); padding: 0 0 17px; }
+      .toc-title { width: 100%; margin-bottom: 7px; }
+      .toc a { padding: 4px 0; }
+      .hero { min-height: 530px; }
+    }
+    @media (max-width: 620px) {
+      body { font-size: 16px; }
+      .shell, .hero-inner { width: min(100% - 30px, 1180px); }
+      .topbar-inner { min-height: 65px; }
+      .topbar-site { display: none; }
+      .hero-inner { padding: 80px 0 54px; }
+      .standfirst { font-size: 18px; }
+      .image-block { margin: 28px 0 35px; }
+      .change-card { grid-template-columns: 1fr; gap: 12px; }
+      .layer-grid, .metrics { grid-template-columns: 1fr; }
+      .callout, .cta { padding: 24px 21px; }
+      .testimonial { padding: 27px 22px 23px; }
+      .testimonial blockquote { font-size: 18px; }
+      .classification-bands li { display: block; }
+      .classification-bands li span { display: block; margin-top: 4px; text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="https://www.umbizo.co.uk" aria-label="Umbizo home">
+        <span class="brand-mark" aria-hidden="true">U</span>
+        <span class="brand-name">Umbizo <span>— Bioinformatics &amp; Data Science</span></span>
+      </a>
+      <a class="topbar-site" href="https://www.umbizo.co.uk">www.umbizo.co.uk</a>
+    </div>
+  </header>
+
+  <section class="hero" aria-labelledby="article-title">
+    <img class="hero-image" src="https://cdn.marblism.com/xaa4e81IWfq.jpg" alt="Clinical laboratory scientist working with automated sample processing equipment">
+    <div class="hero-inner">
+      <p class="eyebrow">Clinical genomics / workflow readiness</p>
+      <h1 id="article-title">ACMG/AMP SVC v4.0 Is Coming: How to Prepare Your Variant Interpretation Workflow Now</h1>
+      <p class="standfirst">A practical preparation guide for clinical laboratories, clinical research organisations, pharma and regulated life-sciences teams moving toward a more explicit, auditable and scalable variant interpretation workflow.</p>
+      <div class="meta">
+        <span><strong>Umbizo</strong> · Bioinformatics &amp; Data Science</span>
+        <span>Variant interpretation services</span>
+        <span>12-week preparation framework</span>
+      </div>
+    </div>
+  </section>
+
+  <main class="shell page-grid">
+    <nav class="toc" aria-label="Article contents">
+      <p class="toc-title">In this article</p>
+      <a href="#challenge">The Challenge</a>
+      <a href="#changes">What Is Changing in SVC v4.0?</a>
+      <a href="#workflow-change">Why Workflows Change</a>
+      <a href="#objectives">Key Objectives</a>
+      <a href="#approach">Our Approach</a>
+      <a href="#timeline">Preparation Timeline</a>
+      <a href="#impact">Impact &amp; Results</a>
+      <a href="#help">How Umbizo Can Help</a>
+      <a href="#looking-forward">Looking Forward</a>
+    </nav>
+
+    <article>
+      <section id="challenge">
+        <div class="rule"></div>
+        <h2>The Challenge</h2>
+        <p class="lead">Variant interpretation is moving from a largely analyst-led activity toward a controlled, evidence-linked decision system. The arrival of ACMG/AMP SVC v4.0 makes that shift more visible.</p>
+        <p>Clinical laboratories and life-sciences teams are already managing larger panels, more frequent reanalysis cycles and a growing volume of evidence from population databases, functional studies, clinical observations and computational predictors. The pressure is not only to interpret more variants. It is to make every decision reproducible, explainable and reviewable.</p>
+        <p>Many current workflows were designed around a stable set of criteria, local rules and manual spreadsheet controls. That model becomes difficult to sustain when guidance changes, when evidence is updated at different times, or when multiple analysts apply the same criterion differently.</p>
+        <div class="callout">
+          <p class="callout-label">The operational question</p>
+          <p>Can your team show, for every classification, which evidence was used, how it was weighted, which rule was applied, who reviewed the decision and what would change if the evidence changed tomorrow?</p>
+        </div>
+        <figure class="image-block">
+          <img src="https://cdn.marblism.com/VcFuU80KmOC.jpg" alt="Abstract blue data patterns representing sequence and evidence data" loading="lazy">
+          <figcaption>Modern interpretation workflows need a clear relationship between evidence, rules, decisions and reports.</figcaption>
+        </figure>
+      </section>
+
+      <section id="changes">
+        <h2>What Is Changing in SVC v4.0?</h2>
+        <p>Version 4.0 is a move toward a more explicit, point-based and auditable model for converting evidence into a classification. The practical implications are broader than changing a few point values in a rules engine. Several criteria can no longer be treated as free-text curator judgements; they must be encoded as rule-driven evidence pathways with defined inputs, thresholds, provenance and review states.</p>
+        <div class="change-list">
+          <div class="change-card">
+            <div class="change-number">01</div>
+            <div><h3>Point-based classification and evidence strength</h3><p>Evidence is expected to be recorded with a defined strength, provenance and rationale. Pathogenic and benign evidence contributes bounded points, making the classification path easier to inspect and compare across analysts.</p></div>
+          </div>
+          <div class="change-card">
+            <div class="change-number">02</div>
+            <div><h3>Legacy criteria are retired, downgraded or restructured</h3><p>PP5 and BP6 are retired. PM2 is downgraded from Moderate to Supporting. PP4, PS2, PM6, PP3 and BP4 are being restructured, while frequency thresholds, overlapping code combinations and gene–disease validity are handled more explicitly.</p></div>
+          </div>
+          <div class="change-card">
+            <div class="change-number">03</div>
+            <div><h3>Structured pathways for high-impact evidence</h3><p>PVS1 becomes a mandatory structured workflow. De novo evidence follows a hierarchy tied to parental confirmation, and PP3/BP4 use calibrated, tool-specific thresholds rather than open-ended computational judgement.</p></div>
+          </div>
+          <div class="change-card">
+            <div class="change-number">04</div>
+            <div><h3>Tighter frequency logic and more granular VUS reporting</h3><p>Benign probability is bounded at 1%, with ancestry-aware frequency logic and explicit database versioning. VUS results may be subclassified as VUS-low, VUS-mid or VUS-high, although the terminology remains under development.</p></div>
+          </div>
+        </div>
+
+        <h3>Evidence strength and points</h3>
+        <p>The exact implementation should follow the approved SVC v4.0 specification and your organisation’s validation decisions. The points model below is the practical design pattern teams should be preparing to support: each evidence item has a bounded contribution, and the aggregation is visible rather than hidden in narrative notes.</p>
+        <div class="table-wrap">
+          <table>
+            <caption>Evidence strength and points</caption>
+            <thead>
+              <tr>
+                <th scope="col">Evidence strength</th>
+                <th scope="col">Pathogenic points</th>
+                <th scope="col">Benign points</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Supporting</td><td>+1</td><td>−1</td></tr>
+              <tr><td>Moderate</td><td>+2</td><td>−2</td></tr>
+              <tr><td>Strong</td><td>+4</td><td>−4</td></tr>
+              <tr><td>Very Strong</td><td>+8</td><td>−8</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">Use the table as a design pattern, not as a substitute for the final SVC v4.0 guidance. The important capability is a versioned, configurable points layer with visible provenance.</p>
+
+        <h3>Classification bands</h3>
+        <p>Classification bands sit on top of the evidence total. They should be displayed as a first-class output, not inferred from an analyst’s free-text summary.</p>
+        <ul class="classification-bands" aria-label="Classification bands">
+          <li><strong>Pathogenic</strong><span>≥ +10</span></li>
+          <li><strong>Likely Pathogenic</strong><span>+6 to +9</span></li>
+          <li><strong>VUS</strong><span>0 to +5</span></li>
+          <li><strong>Likely Benign</strong><span>−1 to −3</span></li>
+          <li><strong>Benign</strong><span>≤ −4</span></li>
+        </ul>
+
+        <h3>Legacy-to-v4.0 treatment map</h3>
+        <p>The following map is the centrepiece of the operational update. It translates familiar criteria into the changes laboratories will need to represent in their evidence model, rules engine, SOPs and validation set.</p>
+        <div class="table-wrap wide">
+          <table class="legacy-map">
+            <caption>Legacy-to-v4.0 treatment map</caption>
+            <thead>
+              <tr>
+                <th scope="col">Legacy criterion / area</th>
+                <th scope="col">Expected v4.0 treatment</th>
+                <th scope="col">Practical implication for laboratories</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>PP5</td><td class="status">Retired <em>retired</em></td><td>Remove as an independent evidence code and identify any historical classifications that relied on it.</td></tr>
+              <tr><td>BP6</td><td class="status">Retired <em>retired</em></td><td>Retire the code from new interpretations and document its treatment in historical reanalysis.</td></tr>
+              <tr><td>PM2</td><td class="status">Downgraded from Moderate to Supporting</td><td>Revise point contributions, SOP language and any automated rules that assumed the former strength.</td></tr>
+              <tr><td>PP4</td><td class="status">Restructured</td><td>Replace broad phenotype-only judgement with gene–disease validity and phenotype specificity inputs.</td></tr>
+              <tr><td>PS2</td><td class="status">Restructured</td><td>Use the hierarchical de novo framework and record parental confirmation, not only a narrative assertion.</td></tr>
+              <tr><td>PM6</td><td class="status">Restructured</td><td>Consolidate into the same de novo hierarchy with explicit evidence quality and family context.</td></tr>
+              <tr><td>PP3</td><td class="status">Restructured</td><td>Use a calibrated tool-specific threshold with a preselected validated predictor and versioned configuration.</td></tr>
+              <tr><td>BP4</td><td class="status">Restructured</td><td>Apply the same controlled computational framework for benign evidence and prevent double-counting.</td></tr>
+              <tr><td>PVS1</td><td class="status">Unchanged in principle, more explicit in implementation</td><td>Operationalise the decision tree for variant type, exon position and nonsense-mediated decay status.</td></tr>
+              <tr><td>BS1</td><td class="status">Thresholds revisited</td><td>Revalidate frequency thresholds against disease prevalence, penetrance, inheritance and ancestry-aware data.</td></tr>
+              <tr><td>BA1</td><td class="status">Thresholds revisited</td><td>Review the stand-alone benign boundary and record the database version and population context.</td></tr>
+              <tr><td>Overlapping code combinations</td><td class="status">Consolidated</td><td>Deduplicate evidence pathways so a single observation cannot contribute through overlapping criteria.</td></tr>
+              <tr><td>Gene–disease validity</td><td class="status">Integrated</td><td>Make validity a structured input to phenotype and criterion decisions rather than an informal background assumption.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">The map is intended for gap analysis and implementation planning. Confirm the final wording, thresholds and release status against the published specification before production validation.</p>
+
+        <h3>PVS1 as a mandatory structured workflow</h3>
+        <p>PVS1 should be operationalised through a decision tree rather than a free-text conclusion. The workflow should capture variant type, exon position and nonsense-mediated decay status, then record the branch taken, evidence strength, exceptions and reviewer approval. This gives laboratories a repeatable way to handle loss-of-function variants across genes with different transcript and mechanism contexts.</p>
+
+        <h3>De novo evidence becomes hierarchical</h3>
+        <p>PS2 and PM6 are consolidated into a hierarchical de novo framework tied to parental confirmation. The evidence pathway should distinguish the quality of maternity and paternity confirmation, phenotype fit, family structure, biological plausibility and any alternative explanation. A confirmed trio result should not be treated as interchangeable with an unconfirmed de novo observation.</p>
+
+        <h3>PP3 and BP4 become calibrated tool-specific rules</h3>
+        <p>Computational evidence moves away from a general curator statement that a predictor is “supportive.” Laboratories should preselect one validated predictor, define tool-specific thresholds and version the configuration. Allele-frequency-dependent components must be disabled in tools such as REVEL or BayesDel where they could double-count population evidence already represented by PM2 or BS1.</p>
+
+        <h3>Frequency rules are being tightened</h3>
+        <p>The benign probability boundary is set at 1%, with a lower evidence requirement for Likely Benign than for Benign. Frequency logic should be ancestry-aware and should preserve the exact population database version, release date, filtering choices and allele-count context used for each interpretation. BS1 and BA1 thresholds therefore need to be revisited rather than copied forward from legacy SOPs.</p>
+
+        <div class="callout publication-note">
+          <p class="callout-label">Publication timeline</p>
+          <p>The standards are expected to remain in pilot through mid-2026, with final publication widely expected in 2027. That timing is a reason to prepare configurable workflows now, not a reason to wait: laboratories can validate the evidence schema, audit controls and test harness before final wording is released.</p>
+        </div>
+
+        <h3>VUS-low, VUS-mid and VUS-high</h3>
+        <p>VUS results may be subclassified as VUS-low, VUS-mid or VUS-high to communicate how close the evidence total is to the classification boundaries. The terminology and operational definitions are still under development, so teams should treat these labels as configurable outputs, not fixed clinical claims. The underlying evidence total, uncertainty and unresolved conflicts must remain visible.</p>
+      </section>
+
+      <section id="workflow-change">
+        <h2>Why Existing Workflows Will Need to Change</h2>
+        <p>A rules update can be technically small and operationally significant. Existing pipelines often combine data ingestion, analyst judgement, scoring, report generation and quality review in a single sequence. When any one of those inputs changes, it can be difficult to identify which previous results are affected.</p>
+        <p>SVC v4.0 preparation therefore needs to address the whole operating model:</p>
+        <ul>
+          <li><strong>Data:</strong> define source ownership, refresh frequency, version capture and evidence de-duplication.</li>
+          <li><strong>Rules:</strong> make criterion definitions, thresholds, point values and exceptions configurable and testable.</li>
+          <li><strong>People:</strong> document how analysts resolve uncertainty, conflicts and evidence that does not map cleanly to a criterion.</li>
+          <li><strong>Controls:</strong> preserve a complete audit trail for changes, approvals, overrides, review status and reanalysis.</li>
+          <li><strong>Outputs:</strong> explain the result in a way that is useful to a clinical reviewer, a quality team and an audit trail.</li>
+        </ul>
+        <p>For organisations that provide variant interpretation services or clinical genomics analysis at scale, the change is an opportunity to create a more maintainable evidence architecture rather than a one-off patch.</p>
+      </section>
+
+      <section id="objectives">
+        <h2>Key Objectives for Preparation</h2>
+        <div class="callout objectives">
+          <p class="callout-label">Preparation priorities</p>
+          <ol>
+            <li><strong>Make every evidence item traceable.</strong> Capture its source, identifier, retrieval date, version, evidence type, strength and reviewer rationale.</li>
+            <li><strong>Separate rules from application logic.</strong> Keep the decision model configurable so that guidance changes do not require a full pipeline rewrite.</li>
+            <li><strong>Support controlled reanalysis.</strong> Identify affected classifications when a source, rule, threshold or interpretation is updated.</li>
+            <li><strong>Strengthen review and audit controls.</strong> Use role-based access, approval states, immutable history and a clear process for exceptions.</li>
+            <li><strong>Produce explainable reports.</strong> Make the evidence-to-decision path readable without losing the technical detail required for verification.</li>
+          </ol>
+        </div>
+        <p>These objectives are relevant whether the workflow is implemented in a laboratory information system, a bespoke analysis platform, a controlled spreadsheet environment or a hybrid of the three. The starting technology matters less than the discipline of the model.</p>
+      </section>
+
+      <section id="approach">
+        <h2>Our Approach</h2>
+        <p>Umbizo approaches SVC v4.0 readiness as a layered bioinformatics and data science problem. The aim is to create a workflow that can be validated in stages, operated by real teams and extended when evidence sources or guidance evolve.</p>
+        <div class="layer-grid">
+          <div class="layer">
+            <h3>Evidence layer</h3>
+            <p>Standardise evidence objects, identifiers, provenance, source versions, retrieval timestamps, quality flags and links to supporting literature or database records. Make duplicate evidence and conflicting observations visible.</p>
+          </div>
+          <div class="layer">
+            <h3>Decision layer</h3>
+            <p>Represent criteria, strength assignments, point contributions, rule combinations, exclusions and reviewer overrides as explicit decision objects. Test the model against reference cases and edge cases.</p>
+          </div>
+          <div class="layer">
+            <h3>Audit and security layer</h3>
+            <p>Protect patient and research data through least-privilege access, environment separation, controlled release, change history and reviewable approval states. Treat every interpretation as a governed record.</p>
+          </div>
+          <div class="layer">
+            <h3>Reporting layer</h3>
+            <p>Generate outputs that distinguish source evidence, applied criteria, point totals, conflicts, reviewer notes and final classification. Reports should be consistent for clinical, research, quality and regulatory audiences.</p>
+          </div>
+        </div>
+        <figure class="image-block inline-visual">
+          <img src="https://cdn.marblism.com/vSa8X5TouzQ.jpg" alt="Glowing blue and red sequence-like data blocks in a high-throughput analysis environment" loading="lazy">
+          <figcaption>A layered architecture gives teams a controlled place to change evidence, rules and reporting independently.</figcaption>
+        </figure>
+      </section>
+
+      <section id="timeline">
+        <h2>A Practical Preparation Timeline</h2>
+        <p>A focused 12-week programme can establish readiness without pausing routine interpretation. The sequence below is designed to create usable evidence early, then progressively validate the decision and reporting layers.</p>
+        <div class="timeline">
+          <div class="phase">
+            <div class="phase-time">Weeks 1–2</div>
+            <h3>Discover and baseline</h3>
+            <p>Map the current workflow from input through report. Inventory criteria, evidence sources, manual controls, review states, known exceptions and high-volume failure points. Select representative variants and establish the baseline for reproducibility, turnaround time and analyst effort.</p>
+          </div>
+          <div class="phase">
+            <div class="phase-time">Weeks 3–5</div>
+            <h3>Model evidence and rules</h3>
+            <p>Define the evidence schema, source identifiers, versioning approach and points configuration. Translate local interpretation rules into testable decision logic. Agree which steps remain analyst judgement and how that judgement is recorded.</p>
+          </div>
+          <div class="phase">
+            <div class="phase-time">Weeks 6–9</div>
+            <h3>Build, test and compare</h3>
+            <p>Implement the evidence and decision layers in a controlled environment. Run historical and edge-case variants through the new logic. Compare results with approved historical classifications, investigate differences and document the rationale for each resolution.</p>
+          </div>
+          <div class="phase">
+            <div class="phase-time">Weeks 10–12</div>
+            <h3>Validate and operationalise</h3>
+            <p>Complete user acceptance testing, reviewer training, report checks, access controls and release documentation. Define change control, reanalysis triggers and a post-release monitoring plan. Move forward with a controlled pilot before wider adoption.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="impact">
+        <h2>Impact &amp; Results</h2>
+        <p>Readiness is not demonstrated by a new interface alone. It is demonstrated when the workflow can produce the same result for the same inputs, explain why it produced that result and show what changed when an input or rule was updated.</p>
+        <div class="callout">
+          <p class="callout-label">Readiness targets</p>
+          <p>Use measurable targets to move the programme from technical activity to operational confidence:</p>
+          <ul>
+            <li>100% of production interpretations linked to versioned evidence and decision records.</li>
+            <li>100% reproducibility for a controlled reference set of representative variants.</li>
+            <li>Clear identification of classifications affected by a source, rule or threshold change.</li>
+            <li>Documented review and approval for every exception, override and release.</li>
+            <li>Reports that allow a second reviewer to reconstruct the classification without relying on undocumented analyst knowledge.</li>
+          </ul>
+        </div>
+        <div class="metrics" aria-label="Readiness outcomes">
+          <div class="metric"><strong>100%</strong><span>Evidence records linked to a source, version and reviewer rationale</span></div>
+          <div class="metric"><strong>12 wk</strong><span>Practical preparation window for a focused pilot programme</span></div>
+          <div class="metric"><strong>1 path</strong><span>Traceable route from evidence through decision to report</span></div>
+        </div>
+        <div class="testimonial">
+          <blockquote>Umbizo delivered exceptional statistical support, combining technical expertise with clear communication. Their thorough approach and consistent delivery significantly enhanced our research outcomes.</blockquote>
+          <cite>Client testimonial · Umbizo services</cite>
+        </div>
+      </section>
+
+      <section id="help">
+        <h2>How Umbizo Can Help</h2>
+        <p>Umbizo supports clinical laboratories, CROs, pharma teams and regulated life-sciences organisations with the analysis, architecture and governance needed to make complex data usable.</p>
+        <ul>
+          <li><strong>Workflow assessment:</strong> map current-state variant interpretation, identify control gaps and prioritise a realistic readiness backlog.</li>
+          <li><strong>Clinical genomics analysis:</strong> design evidence models and analytical checks that support consistent interpretation across panels, cohorts and reanalysis cycles.</li>
+          <li><strong>Bioinformatics consulting:</strong> translate domain rules into configurable pipelines, quality checks, test cases and maintainable data structures.</li>
+          <li><strong>Healthcare data science consulting:</strong> connect interpretation data with secure reporting, operational metrics, exception analysis and decision support.</li>
+          <li><strong>Validation and enablement:</strong> create reference datasets, comparison reports, standard operating procedures, training materials and change-control documentation.</li>
+        </ul>
+        <p>The right preparation plan will depend on your current systems, accreditation context, data volumes and intended use. The practical first step is a clear view of what your workflow must be able to prove.</p>
+      </section>
+
+      <section id="looking-forward">
+        <h2>Looking Forward</h2>
+        <p>SVC v4.0 preparation is not a compliance exercise to complete once. It is a chance to establish a stronger operating foundation for clinical genomics analysis: one that can accommodate new evidence, support transparent review and scale without turning every guidance update into a manual rebuild.</p>
+        <p>Teams that start now can use the time before adoption to baseline their current performance, test their assumptions and involve the people who will operate the workflow every day. The result is a more controlled transition, better-quality interpretation records and a clearer path to future automation.</p>
+        <div class="cta">
+          <h2>Prepare your workflow before the change arrives.</h2>
+          <p>Talk to Umbizo about variant interpretation services, clinical genomics analysis and practical bioinformatics consulting for regulated life-sciences teams.</p>
+          <a class="cta-button" href="mailto:heatherrobinson@umbizo.co.uk">Contact Heather Robinson · heatherrobinson@umbizo.co.uk</a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <div class="shell footer-inner">
+      <span>Umbizo — Bioinformatics &amp; Data Science</span>
+      <a href="https://www.umbizo.co.uk">www.umbizo.co.uk</a>
+    </div>
+  </footer>
+</body>
+</html>
